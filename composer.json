@@ -1,0 +1,10 @@
+{
+    "require-dev": {
+        "symfony/maker-bundle": "^1.41",
+        "phpunit/phpunit": "^9.5",
+        "symfony/test-pack": "^1.0"
+    },
+    "require": {
+        "guzzlehttp/guzzle": "^7.4"
+    }
+}

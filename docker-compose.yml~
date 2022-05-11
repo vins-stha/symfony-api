@@ -1,0 +1,43 @@
+version: '3.9'
+services:
+  db:
+    container_name: db
+    image: mysql:latest
+    command: ["--default-authentication-plugin=mysql_native_password"]
+    ports:
+      - "3306:3306"
+    volumes:
+      - ./mysql:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: symfony
+      MYSQL_USER: symfony
+      MYSQL_PASSWORD: symfony
+  php:
+    container_name: php
+    build:
+      context: .
+      dockerfile: ./php-fpm/Dockerfile
+    ports:
+      - "9000:9000"
+    volumes:
+      - .:/var/www/symfony
+    depends_on:
+      - db
+    environment:
+      MYSQL_DATABASE: symfony
+      MYSQL_USER: symfony
+      MYSQL_PASSWORD: symfony
+      MYSQL_HOST: db
+  nginx:
+    container_name: nginx
+    build:
+      context: .
+      dockerfile: ./nginx/Dockerfile
+    ports:
+      - "8001:8000"
+    depends_on:
+      - php
+    volumes:
+      - .:/var/www/symfony
+
