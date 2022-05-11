@@ -213,7 +213,6 @@ class NoteController extends AbstractController
    *   description="delete successful",
    * @OA\JsonContent(
    *   type="array",
-   *   @OA\Items(ref=@Model(type=Note::class))
    * )
    * )
    * @OA\Tag(name="Delete note")
