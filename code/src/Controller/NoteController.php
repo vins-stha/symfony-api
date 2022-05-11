@@ -6,18 +6,28 @@ use App\Entity\Note;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\JsonResponse;
-
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
+use OpenApi\Annotations as OA;
+use Nelmio\ApiDocBundle\Annotation\Model;
 
 
 class NoteController extends AbstractController
 {
   /**
-   *
    * @Route("/api/v1/notes", name="list_note", methods={"GET"})
-   *
+   * @OA\Response(
+   *   response=200,
+   *   description="successful",
+   * @OA\JsonContent(
+   *   type="array",
+   *   @OA\Items(ref=@Model(type=Note::class))
+   * )
+   * )
+   * @OA\Tag(name="Notes list")
+   * @param Request $request
+   * @return JsonResponse
    */
   public function index(Request $request): JsonResponse
   {
@@ -29,7 +39,27 @@ class NoteController extends AbstractController
   /**
    *
    * @Route("/api/v1/notes/{id}", name="detailed_note", methods={"GET"})
+   * @OA\Post(
+   *   description="Add a new note"
+   * )
+   * @OA\RequestBody(
+   *   description="Json Payload",
+   *   @OA\MediaType(
+   *   mediaType="application/json"
+   * )
+   * )
+   * @OA\Response(
+   *   response=201,
+   *   description="Note added successfully",
    *
+   * @OA\JsonContent(
+   *   type="array",
+   *   @OA\Items(ref=@Model(type=Note::class))
+   * )
+   * )
+   * @OA\Tag(name="Single note view")
+   * @param Request $request
+   * @return JsonResponse
    */
   public function note(Request $request): JsonResponse
   {
@@ -57,8 +87,18 @@ class NoteController extends AbstractController
 
   /**
    *
-   * @Route("/api/v1/notes/add", name="create_note", methods={"POST"})
-   *
+   * @Route("/api/v1/notes", name="create_note", methods={"POST"})
+   * @OA\Response(
+   *   response=200,
+   *   description="successful",
+   * @OA\JsonContent(
+   *   type="array",
+   *   @OA\Items(ref=@Model(type=Note::class))
+   * )
+   * )
+   * @OA\Tag(name="Add new note")
+   * @param Request $request
+   * @return JsonResponse
    */
   public function create(Request $request): JsonResponse
   {
@@ -95,14 +135,23 @@ class NoteController extends AbstractController
       ];
     }
 
-    return $this->json($message);
-;
+    return $this->json($message);;
   }
 
   /**
    *
    * @Route("/api/v1/notes/{id}", name="update_note", methods={"PUT"})
-   *
+   * @OA\Response(
+   *   response=200,
+   *   description="successful",
+   * @OA\JsonContent(
+   *   type="array",
+   *   @OA\Items(ref=@Model(type=Note::class))
+   * )
+   * )
+   * @OA\Tag(name="Edit note")
+   * @param Request $request
+   * @return JsonResponse
    */
   public function update(Request $request, ValidatorInterface $validator): JsonResponse
   {
@@ -159,7 +208,17 @@ class NoteController extends AbstractController
   /**
    *
    * @Route("/api/v1/notes/{id}", name="delete_note", methods={"DELETE"})
-   *
+   * @OA\Response(
+   *   response=200,
+   *   description="delete successful",
+   * @OA\JsonContent(
+   *   type="array",
+   *   @OA\Items(ref=@Model(type=Note::class))
+   * )
+   * )
+   * @OA\Tag(name="Delete note")
+   * @param Request $request
+   * @return JsonResponse
    */
   public function delete(Request $request): JsonResponse
   {
@@ -181,7 +240,7 @@ class NoteController extends AbstractController
       $em->remove($note);
       $em->flush();
       $message = [
-          "message" =>"Deleted note id # $id successfully",
+          "message" => "Deleted note id # $id successfully",
           "code" => Response::HTTP_OK
       ];
     } catch (\Exception $e) {

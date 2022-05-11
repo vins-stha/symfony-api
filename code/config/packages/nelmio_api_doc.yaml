@@ -1,0 +1,11 @@
+nelmio_api_doc:
+    documentation:
+        servers:
+            - url: http://127.0.0.1:8001
+        info:
+            title: Symfony Rest API
+            description: Rest API Documentation
+            version: 1.0.0
+    areas: # to filter documented areas
+        path_patterns:
+            - ^/api/v1/notes(?!/doc$) # Accepts routes under /api except /api/doc
