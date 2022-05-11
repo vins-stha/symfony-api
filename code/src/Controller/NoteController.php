@@ -17,7 +17,7 @@ class NoteController extends AbstractController
    * @Route("/api/v1/notes", name="list_note", methods={"GET"})
    *
    */
-  public function index(Request $request): Response
+  public function index(Request $request): JsonResponse
   {
     $notes = $this->getDoctrine()->getRepository(Note::class)->findAll();
 
@@ -29,7 +29,7 @@ class NoteController extends AbstractController
    * @Route("/api/v1/notes/{id}", name="detailed_note", methods={"GET"})
    *
    */
-  public function note(Request $request): Response
+  public function note(Request $request): JsonResponse
   {
     $id = intval($request->get('id'));
 
@@ -55,10 +55,10 @@ class NoteController extends AbstractController
 
   /**
    *
-   * @Route("/api/v1/notes", name="create_note", methods={"POST"})
+   * @Route("/api/v1/notes/add", name="create_note", methods={"POST"})
    *
    */
-  public function create(Request $request): Response
+  public function create(Request $request): JsonResponse
   {
     if ($this->is_Json($request->getContent())) {
 
@@ -102,7 +102,7 @@ class NoteController extends AbstractController
    * @Route("/api/v1/notes/{id}", name="update_note", methods={"PUT"})
    *
    */
-  public function update(Request $request, ValidatorInterface $validator): Response
+  public function update(Request $request, ValidatorInterface $validator): JsonResponse
   {
     $id = intval($request->get('id'));
 
@@ -159,7 +159,7 @@ class NoteController extends AbstractController
    * @Route("/api/v1/notes/{id}", name="delete_note", methods={"DELETE"})
    *
    */
-  public function delete(Request $request): Response
+  public function delete(Request $request): JsonResponse
   {
     $id = intval($request->get('id'));
 
