@@ -87,10 +87,29 @@ class NoteController extends AbstractController
 
   /**
    *
-   * @Route("/api/v1/notes", name="create_note", methods={"POST"})
+   * @Route("/api/v1/notes/add", name="create_note", methods={"POST"})
+   * @OA\RequestBody(
+   *   description="json data to create new note",
+   *   @OA\MediaType(
+   *   mediaType="application/json",
+   *   @OA\Schema(
+   *   type="object",
+   *   @OA\Property(
+   *   property="title",
+   *   description="title of the note (required)",
+   *   type="string"
+   * ),
+   *   @OA\Property(
+   *   property="text",
+   *   description="description about the note",
+   *   type="string"
+   * )
+   * )
+   * )
+   * )
    * @OA\Response(
-   *   response=200,
-   *   description="successful",
+   *   response=201,
+   *   description="Note created successfully",
    * @OA\JsonContent(
    *   type="array",
    *   @OA\Items(ref=@Model(type=Note::class))
@@ -141,15 +160,34 @@ class NoteController extends AbstractController
   /**
    *
    * @Route("/api/v1/notes/{id}", name="update_note", methods={"PUT"})
+   * @OA\RequestBody(
+   *   description="json data to create new note",
+   *   @OA\MediaType(
+   *   mediaType="application/json",
+   *   @OA\Schema(
+   *   type="object",
+   *   @OA\Property(
+   *   property="title",
+   *   description="title of the note (required)",
+   *   type="string"
+   * ),
+   *   @OA\Property(
+   *   property="text",
+   *   description="description about the note",
+   *   type="string"
+   * )
+   * )
+   * )
+   * )
    * @OA\Response(
    *   response=200,
-   *   description="successful",
+   *   description="Note updated successfully",
    * @OA\JsonContent(
    *   type="array",
    *   @OA\Items(ref=@Model(type=Note::class))
    * )
    * )
-   * @OA\Tag(name="Edit note")
+   * @OA\Tag(name="Update note")
    * @param Request $request
    * @return JsonResponse
    */
@@ -212,7 +250,7 @@ class NoteController extends AbstractController
    *   response=200,
    *   description="delete successful",
    * @OA\JsonContent(
-   *   type="array",
+   *   type="string",
    * )
    * )
    * @OA\Tag(name="Delete note")
