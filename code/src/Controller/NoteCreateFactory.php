@@ -29,10 +29,15 @@ class NoteCreateFactory
         new NotBlank(),
     ]);
 
+    $message = array();
     if(count($violations) > 0 )
-      $violations = "Validation Error: Title should be at least 3 characters long and NOT Blank";
+    {
+      foreach ($violations as $violation)
+      {
+        $message[] = "title : Validation Error!. ". $violation->getMessage();
+      }
+    }
 
-    return $violations;
-
+    return $message;
   }
 }

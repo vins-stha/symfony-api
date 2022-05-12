@@ -8,7 +8,6 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Validator\Validator\ValidatorInterface;
 use OpenApi\Annotations as OA;
 use Nelmio\ApiDocBundle\Annotation\Model;
 
@@ -119,7 +118,7 @@ class NoteController extends AbstractController
 
     $errors = NoteCreateFactory::validateNote($note);
 
-    if (strlen($errors) > 0) {
+    if (count($errors) > 0) {
       $message = [
           'message' => $errors,
           'code' => Response::HTTP_BAD_REQUEST
@@ -153,7 +152,7 @@ class NoteController extends AbstractController
    * @param Request $request
    * @return JsonResponse
    */
-  public function update(Request $request, ValidatorInterface $validator): JsonResponse
+  public function update(Request $request): JsonResponse
   {
     $id = intval($request->get('id'));
 
@@ -184,7 +183,7 @@ class NoteController extends AbstractController
 
     $errors = NoteCreateFactory::validateNote($note);
 
-    if (strlen($errors) > 0) {
+    if (count($errors) > 0) {
       $message = [
           'message' => $errors,
           'code' => Response::HTTP_BAD_REQUEST
@@ -200,9 +199,8 @@ class NoteController extends AbstractController
           "note" => $data
       ];
     }
-//    $response = new  Response($this->json($message));
-    return $this->json($message);
 
+    return $this->json($message);
   }
 
   /**
@@ -212,7 +210,7 @@ class NoteController extends AbstractController
    *   response=200,
    *   description="delete successful",
    * @OA\JsonContent(
-   *   type="array",
+   *   type="string",
    * )
    * )
    * @OA\Tag(name="Delete note")
