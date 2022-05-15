@@ -39,9 +39,6 @@ class NoteController extends AbstractController
   /**
    *
    * @Route("/api/v1/notes/{id}", name="detailed_note", methods={"GET"})
-   * @OA\Post(
-   *   description="Add a new note"
-   * )
    * @OA\RequestBody(
    *   description="Json Payload",
    *   @OA\MediaType(
@@ -49,8 +46,8 @@ class NoteController extends AbstractController
    * )
    * )
    * @OA\Response(
-   *   response=201,
-   *   description="Note added successfully",
+   *   response=200,
+   *   description="Single note view",
    *
    * @OA\JsonContent(
    *   type="array",
@@ -289,7 +286,6 @@ class NoteController extends AbstractController
 
     return $this->json($message);
   }
-
 
   public function is_Json($object)
   {

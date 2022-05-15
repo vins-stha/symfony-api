@@ -5,7 +5,7 @@ services:
     image: mysql:latest
     command: ["--default-authentication-plugin=mysql_native_password"]
     ports:
-      - "3306:3306"
+      - "3308:3306"
     volumes:
       - ./mysql:/var/lib/mysql
     environment:
@@ -15,6 +15,8 @@ services:
       MYSQL_PASSWORD: symfony
   php:
     container_name: php
+#    extra_hosts:
+#      - "host.docker.internal:host-gateway"
     build:
       context: .
       dockerfile: ./php-fpm/Dockerfile
@@ -29,6 +31,7 @@ services:
       MYSQL_USER: symfony
       MYSQL_PASSWORD: symfony
       MYSQL_HOST: db
+#      PHP_IDE_CONFIG: "serverName=docker-debugger"
   nginx:
     container_name: nginx
     build:
@@ -40,4 +43,13 @@ services:
       - php
     volumes:
       - .:/var/www/symfony
-
+  app:
+    depends_on:
+      - db
+    image: phpmyadmin/phpmyadmin
+    container_name: phpmyadmin
+    restart: always
+    ports:
+      - '8080:80'
+    environment:
+      PMA_HOST: db
