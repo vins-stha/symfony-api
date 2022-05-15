@@ -39,19 +39,9 @@ class NoteController extends AbstractController
   /**
    *
    * @Route("/api/v1/notes/{id}", name="detailed_note", methods={"GET"})
-   * @OA\Post(
-   *   description="Add a new note"
-   * )
-   * @OA\RequestBody(
-   *   description="Json Payload",
-   *   @OA\MediaType(
-   *   mediaType="application/json"
-   * )
-   * )
    * @OA\Response(
-   *   response=201,
-   *   description="Note added successfully",
-   *
+   *   response=200,
+   *    description="successful",
    * @OA\JsonContent(
    *   type="array",
    *   @OA\Items(ref=@Model(type=Note::class))
@@ -87,9 +77,28 @@ class NoteController extends AbstractController
 
   /**
    *
-   * @Route("/api/v1/notes", name="create_note", methods={"POST"})
+   * @Route("/api/v1/notes/add", name="create_note", methods={"POST"})
+   * @OA\RequestBody(
+   *   description="json data to create new note",
+   *   @OA\MediaType(
+   *   mediaType="application/json",
+   *   @OA\Schema(
+   *   type="object",
+   *   @OA\Property(
+   *   property="title",
+   *   description="title of the note (required)",
+   *   type="string"
+   * ),
+   *   @OA\Property(
+   *   property="text",
+   *   description="description about the note",
+   *   type="string"
+   * )
+   * )
+   * )
+   * )
    * @OA\Response(
-   *   response=200,
+   *   response=201,
    *   description="successful",
    * @OA\JsonContent(
    *   type="array",
@@ -141,6 +150,25 @@ class NoteController extends AbstractController
   /**
    *
    * @Route("/api/v1/notes/{id}", name="update_note", methods={"PUT"})
+   *   @OA\RequestBody(
+   *   description="json data to upate  note",
+   *   @OA\MediaType(
+   *   mediaType="application/json",
+   *   @OA\Schema(
+   *   type="object",
+   *   @OA\Property(
+   *   property="title",
+   *   description="title  of the note (required)",
+   *   type="string"
+   * ),
+   *   @OA\Property(
+   *   property="text",
+   *   description="description about the note",
+   *   type="string"
+   * )
+   * )
+   * )
+   * )
    * @OA\Response(
    *   response=200,
    *   description="successful",
@@ -211,9 +239,6 @@ class NoteController extends AbstractController
    * @OA\Response(
    *   response=200,
    *   description="delete successful",
-   * @OA\JsonContent(
-   *   type="array",
-   * )
    * )
    * @OA\Tag(name="Delete note")
    * @param Request $request
@@ -251,7 +276,6 @@ class NoteController extends AbstractController
 
     return $this->json($message);
   }
-
 
   public function is_Json($object)
   {
